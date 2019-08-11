@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
@@ -15,6 +16,11 @@ namespace Microsoft.AspNetCore.E2ETesting
         private static readonly AsyncLocal<IWebDriver> _asyncBrowser = new AsyncLocal<IWebDriver>();
         private static readonly AsyncLocal<ILogs> _logs = new AsyncLocal<ILogs>();
         private static readonly AsyncLocal<ITestOutputHelper> _output = new AsyncLocal<ITestOutputHelper>();
+
+        // Limit the number of concurrent browser tests.
+        private readonly static int MaxConcurrentBrowsers = Environment.ProcessorCount * 2;
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(MaxConcurrentBrowsers);
+        private bool _semaphoreHeld;
 
         public BrowserTestBase(BrowserFixture browserFixture, ITestOutputHelper output)
         {
@@ -34,6 +40,11 @@ namespace Microsoft.AspNetCore.E2ETesting
 
         public Task DisposeAsync()
         {
+            if (_semaphoreHeld)
+            {
+                _semaphore.Release();
+            }
+
             return Task.CompletedTask;
         }
 
@@ -44,6 +55,8 @@ namespace Microsoft.AspNetCore.E2ETesting
 
         public virtual async Task InitializeAsync(string isolationContext)
         {
+            await _semaphore.WaitAsync(TimeSpan.FromMinutes(30));
+            _semaphoreHeld = true;
             await InitializeBrowser(isolationContext);
 
             InitializeAsyncCore();
