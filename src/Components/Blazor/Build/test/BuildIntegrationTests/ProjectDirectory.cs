@@ -14,7 +14,8 @@ namespace Microsoft.AspNetCore.Blazor.Build
     {
         public bool PreserveWorkingDirectory { get; set; } = false;
 
-        private static readonly string RepoRoot = GetTestAttribute("Testing.RepoRoot");
+        private static readonly string RepoRoot = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("helix"))
+            ? GetTestAttribute("Testing.RepoRoot") : Directory.GetCurrentDirectory();
 
         public static ProjectDirectory Create(string projectName, string baseDirectory = "", string[] additionalProjects = null)
         {
