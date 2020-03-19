@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <HelixContent Include="..\testassets\**\*" />
+    <HelixContent Include="..\..\..\..\..\global.json" />
   </ItemGroup>
 
   <ItemGroup>
