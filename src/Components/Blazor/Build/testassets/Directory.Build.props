@@ -20,12 +20,12 @@
     <ItemGroup>
       <!-- Use the sample compiler \ SDK that the rest of our build uses-->
       <PackageReference Include="Microsoft.Net.Compilers.Toolset"
-        Version="3.7.0-1.20254.1"
+        Version="3.6.0-4.final"
         PrivateAssets="all"
         IsImplicitlyDefined="true" />
 
       <PackageReference Include="Microsoft.NET.Sdk.Razor"
-        Version="5.0.0-preview.5.20254.4"
+        Version="5.0.0-preview.3.20215.3"
         PrivateAssets="All"
         IsImplicitlyDefined="true" />
     </ItemGroup>
