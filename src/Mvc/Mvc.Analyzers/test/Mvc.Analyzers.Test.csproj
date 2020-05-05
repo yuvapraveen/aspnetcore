@@ -4,6 +4,7 @@
     <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>Microsoft.AspNetCore.Mvc.Analyzers</RootNamespace>
+    <DisablePackageReferenceRestrictions>true</DisablePackageReferenceRestrictions>
    </PropertyGroup>
 
   <ItemGroup>

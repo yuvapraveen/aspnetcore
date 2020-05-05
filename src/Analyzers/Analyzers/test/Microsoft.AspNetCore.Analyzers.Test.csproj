@@ -4,6 +4,7 @@
     <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>Microsoft.AspNetCore.Analyzers</RootNamespace>
+    <DisablePackageReferenceRestrictions>true</DisablePackageReferenceRestrictions>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,8 +16,7 @@
     <ProjectReference Include="$(RepoRoot)src\Analyzers\Analyzers\src\Microsoft.AspNetCore.Analyzers.csproj" />
     <ProjectReference Include="$(RepoRoot)src\Analyzers\Microsoft.AspNetCore.Analyzer.Testing\src\Microsoft.AspNetCore.Analyzer.Testing.csproj" />
 
-    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
-
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces"/>
     <!--
         These tests include startup code for most parts of our stack. This list will grow as we add more.
     -->
