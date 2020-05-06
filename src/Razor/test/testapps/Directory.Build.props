@@ -1,0 +1,44 @@
+<Project>
+  <Import Project="Before.Directory.Build.props" Condition="Exists('Before.Directory.Build.props')" />
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory)..\, Directory.Build.props))\Directory.Build.props" />
+
+  <PropertyGroup>
+    <!--
+      In the case that a user is building a sample directly the MicrosoftNetCompilersToolsetPackagerVersion will not be provided.
+      We'll fall back to whatever the current SDK provides in regards to Roslyn's Microsoft.Net.Compilers.Toolset.
+    -->
+    <BuildingTestAppsIndependently>false</BuildingTestAppsIndependently>
+    <BuildingTestAppsIndependently Condition="'$(MicrosoftNetCompilersToolsetPackageVersion)' == ''">true</BuildingTestAppsIndependently>
+
+    <!-- Do not resolve Reference ItemGroup since it has a different semantic meaning in Razor test apps -->
+    <EnableCustomReferenceResolution>false</EnableCustomReferenceResolution>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Working around an issue in XDT transforms -->
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+
+    <!-- Working around https://github.com/NuGet/Home/issues/8467 -->
+    <NoWarn>$(NoWarn);NU5131</NoWarn>
+  </PropertyGroup>
+
+  <!-- Don't use the server when building in place. This locks up rzc.dll -->
+  <PropertyGroup Condition="'$(BinariesRoot)'==''">
+    <UseRazorBuildServer>false</UseRazorBuildServer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Have the SDK treat the MvcShim as an MVC assembly -->
+    <_MvcAssemblyName Include="Microsoft.AspNetCore.Razor.Test.MvcShim.ClassLib" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(BuildingTestAppsIndependently) == 'false'">
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset"
+        Version="$(MicrosoftNetCompilersToolsetPackageVersion)"
+        PrivateAssets="all"
+        IsImplicitlyDefined="true" />
+  </ItemGroup>
+
+  <Import Project="After.Directory.Build.props" Condition="Exists('After.Directory.Build.props')" />
+
+</Project>

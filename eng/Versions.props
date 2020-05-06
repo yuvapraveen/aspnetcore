@@ -107,6 +107,7 @@
     <MicrosoftExtensionsPrimitivesPackageVersion>5.0.0-preview.5.20229.5</MicrosoftExtensionsPrimitivesPackageVersion>
     <MicrosoftExtensionsInternalTransportPackageVersion>5.0.0-preview.5.20229.5</MicrosoftExtensionsInternalTransportPackageVersion>
     <SystemComponentModelAnnotationsPackageVersion>5.0.0-preview.5.20229.5</SystemComponentModelAnnotationsPackageVersion>
+    <SystemDiagnosticsDiagnosticSourcePackageVersion>5.0.0-preview.5.20229.5</SystemDiagnosticsDiagnosticSourcePackageVersion>
     <SystemDiagnosticsEventLogPackageVersion>5.0.0-preview.5.20229.5</SystemDiagnosticsEventLogPackageVersion>
     <SystemDrawingCommonPackageVersion>5.0.0-preview.5.20229.5</SystemDrawingCommonPackageVersion>
     <SystemIOPipelinesPackageVersion>5.0.0-preview.5.20229.5</SystemIOPipelinesPackageVersion>

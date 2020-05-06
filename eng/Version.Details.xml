@@ -189,6 +189,10 @@
       <Uri>https://github.com/dotnet/runtime</Uri>
       <Sha>5d5c36bb9e887cfe50913840ba96985da113640f</Sha>
     </Dependency>
+    <Dependency Name="System.Diagnostics.DiagnosticSource" Version="5.0.0-preview.5.20229.5" CoherentParentDependency="Microsoft.AspNetCore.Razor.Language">
+      <Uri>https://github.com/dotnet/runtime</Uri>
+      <Sha>5d5c36bb9e887cfe50913840ba96985da113640f</Sha>
+    </Dependency>
     <Dependency Name="System.Diagnostics.EventLog" Version="5.0.0-preview.5.20229.5" CoherentParentDependency="Microsoft.AspNetCore.Razor.Language">
       <Uri>https://github.com/dotnet/runtime</Uri>
       <Sha>5d5c36bb9e887cfe50913840ba96985da113640f</Sha>
