@@ -13,22 +13,6 @@
       <Uri>https://github.com/dotnet/blazor</Uri>
       <Sha>dd7fb4d3931d556458f62642c2edfc59f6295bfb</Sha>
     </Dependency>
-    <Dependency Name="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-preview.5.20255.2">
-      <Uri>https://github.com/dotnet/aspnetcore-tooling</Uri>
-      <Sha>e2ce8c9809acd3860e77940a246e722af95495b4</Sha>
-    </Dependency>
-    <Dependency Name="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="5.0.0-preview.5.20255.2">
-      <Uri>https://github.com/dotnet/aspnetcore-tooling</Uri>
-      <Sha>e2ce8c9809acd3860e77940a246e722af95495b4</Sha>
-    </Dependency>
-    <Dependency Name="Microsoft.CodeAnalysis.Razor" Version="5.0.0-preview.5.20255.2">
-      <Uri>https://github.com/dotnet/aspnetcore-tooling</Uri>
-      <Sha>e2ce8c9809acd3860e77940a246e722af95495b4</Sha>
-    </Dependency>
-    <Dependency Name="Microsoft.NET.Sdk.Razor" Version="5.0.0-preview.5.20255.2">
-      <Uri>https://github.com/dotnet/aspnetcore-tooling</Uri>
-      <Sha>e2ce8c9809acd3860e77940a246e722af95495b4</Sha>
-    </Dependency>
     <Dependency Name="dotnet-ef" Version="5.0.0-preview.5.20227.5">
       <Uri>https://github.com/dotnet/efcore</Uri>
       <Sha>818c93aa44ab51397551e128e5f574ea25214b59</Sha>
@@ -204,6 +188,10 @@
     <Dependency Name="System.ComponentModel.Annotations" Version="5.0.0-preview.5.20253.7" CoherentParentDependency="Microsoft.AspNetCore.Razor.Language">
       <Uri>https://github.com/dotnet/runtime</Uri>
       <Sha>8527a991b91cabc9bec6f6abe57a52b5bb5e154d</Sha>
+    </Dependency>
+    <Dependency Name="System.Diagnostics.DiagnosticSource" Version="5.0.0-preview.5.20253.7" CoherentParentDependency="Microsoft.AspNetCore.Razor.Language">
+      <Uri>https://github.com/dotnet/runtime</Uri>
+      <Sha>5d5c36bb9e887cfe50913840ba96985da113640f</Sha>
     </Dependency>
     <Dependency Name="System.Diagnostics.EventLog" Version="5.0.0-preview.5.20253.7" CoherentParentDependency="Microsoft.AspNetCore.Razor.Language">
       <Uri>https://github.com/dotnet/runtime</Uri>

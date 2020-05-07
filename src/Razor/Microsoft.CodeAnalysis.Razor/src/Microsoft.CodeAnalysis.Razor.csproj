@@ -6,11 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AspNetCore.Razor.Language\Microsoft.AspNetCore.Razor.Language.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="$(Runtime_MicrosoftCodeAnalysisCommonPackageVersion)" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(Runtime_MicrosoftCodeAnalysisCSharpPackageVersion)" />
+    <Reference Include="Microsoft.AspNetCore.Razor.Language" />
+    <Reference Include="Microsoft.CodeAnalysis.Common" />
+    <Reference Include="Microsoft.CodeAnalysis.CSharp" />
   </ItemGroup>
 </Project>
