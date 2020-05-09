@@ -40,7 +40,7 @@
     <ProjectReference Include="..\..\Blazor\testassets\StandaloneApp\StandaloneApp.csproj" />
     <ProjectReference Include="..\..\Blazor\DevServer\src\Microsoft.AspNetCore.Blazor.DevServer.csproj" />
     <ProjectReference Include="..\testassets\BasicTestApp\BasicTestApp.csproj" />
-    <ProjectReference Include="..\testassets\TestServer\Components.TestServer.csproj" />
+    <ProjectReference Include="..\testassets\Components.TestServer\Components.TestServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
