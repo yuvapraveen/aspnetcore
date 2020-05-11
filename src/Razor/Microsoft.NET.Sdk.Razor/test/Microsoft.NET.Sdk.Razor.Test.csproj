@@ -63,9 +63,10 @@
     <MSBuildLocationFileOutput>$(IntermediateOutputPath)BuildVariables.generated.cs</MSBuildLocationFileOutput>
   </PropertyGroup>
 
+  <!-- Only run this target if we are actually testing. Skip if we are building only. -->
   <Target
     Name="GenerateMSBuildLocationFile"
-    Condition="'$(TargetFramework)'!=''"
+    Condition="'$(TargetFramework)'!='' AND '$(Test)' == 'true'"
     AfterTargets="BeforeBuild"
     Inputs="$(MSBuildAllProjects)"
     Outputs="$(MSBuildLocationFileOutput)">
