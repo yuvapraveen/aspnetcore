@@ -27,7 +27,7 @@
         PrivateAssets="All"
         IsImplicitlyDefined="true"
         ReferenceOutputAssembly="false" >
-        <SetTargetFramework>TargetFramework=$(DefaultNetCoreTargetFramework)</SetTargetFramework>
+        <SetTargetFramework>TargetFramework=netcoreapp5.0</SetTargetFramework>
       </ProjectReference>
     </ItemGroup>
 
