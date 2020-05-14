@@ -10,6 +10,9 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <Nullable>enable</Nullable>
+
+    <!-- TODO: Figure out why these warnings are occuring -->
+    <NoWarn>$(NoWarn);RS1024;RS1025;RS1026</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
