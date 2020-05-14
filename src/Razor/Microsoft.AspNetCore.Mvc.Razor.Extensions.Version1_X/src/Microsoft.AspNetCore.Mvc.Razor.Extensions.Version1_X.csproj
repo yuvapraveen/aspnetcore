@@ -6,6 +6,8 @@
     <PackageTags>$(PackageTags);aspnetcoremvc</PackageTags>
     <EnableApiCheck>false</EnableApiCheck>
     <IsShipping>false</IsShipping>
+    <!-- Need to build this project in source build -->
+    <ExcludeFromSourceBuild>false</ExcludeFromSourceBuild>
   </PropertyGroup>
 
   <ItemGroup>

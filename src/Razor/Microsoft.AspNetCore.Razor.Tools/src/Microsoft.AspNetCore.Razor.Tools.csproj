@@ -20,6 +20,9 @@
 
     <!-- Don't produce rzc.exe -->
     <UseAppHost>false</UseAppHost>
+
+    <!-- Need to build this project in source build -->
+    <ExcludeFromSourceBuild>false</ExcludeFromSourceBuild>
   </PropertyGroup>
 
   <ItemGroup>

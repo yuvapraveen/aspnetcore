@@ -15,6 +15,8 @@
     <NoWarn>$(NoWarn);NU5129</NoWarn>
     <!-- Cannot run pubternal check on net46 -->
     <DisablePubternalApiCheck>true</DisablePubternalApiCheck>
+    <!-- Need to build this project in source build -->
+    <ExcludeFromSourceBuild>false</ExcludeFromSourceBuild>
   </PropertyGroup>
 
   <ItemGroup>
