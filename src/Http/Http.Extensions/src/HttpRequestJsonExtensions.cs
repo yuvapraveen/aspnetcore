@@ -2,34 +2,64 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Net.Http.Headers;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Http
+#nullable enable
+
+namespace Microsoft.AspNetCore.Http.Json
 {
     public static class HttpRequestJsonExtensions
     {
-        public static bool HasJsonContentType(this HttpRequest request)
+        [return: MaybeNull]
+        public static ValueTask<TValue> ReadFromJsonAsync<TValue>(
+            this HttpRequest request,
+            CancellationToken cancellationToken = default)
         {
-            if (request == null)
+            return request.ReadFromJsonAsync<TValue>(options: null, cancellationToken);
+        }
+
+        [return: MaybeNull]
+        public static ValueTask<TValue> ReadFromJsonAsync<TValue>(
+            this HttpRequest request,
+            JsonSerializerOptions? options,
+            CancellationToken cancellationToken = default)
+        {
+            if (!request.HasJsonContentType())
             {
-                throw new ArgumentNullException(nameof(request));
+                return new ValueTask<TValue>(Task.FromException<TValue>(CreateContentTypeError(request)));
             }
 
-            if (!MediaTypeHeaderValue.TryParse(request.ContentType, out var mt))
+            return JsonSerializer.DeserializeAsync<TValue>(request.Body, options, cancellationToken);
+        }
+
+        public static ValueTask<object?> ReadFromJsonAsync(
+            this HttpRequest request,
+            Type type,
+            CancellationToken cancellationToken = default)
+        {
+            return request.ReadFromJsonAsync(type, options: null, cancellationToken);
+        }
+
+        public static ValueTask<object?> ReadFromJsonAsync(
+            this HttpRequest request,
+            Type type,
+            JsonSerializerOptions? options,
+            CancellationToken cancellationToken = default)
+        {
+            if (!request.HasJsonContentType())
             {
-                return false;
+                return new ValueTask<object?>(Task.FromException<object?>(CreateContentTypeError(request)));
             }
 
-            if (mt.MediaType.Equals(JsonConstants.JsonContentType, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-            if (mt.Suffix.Equals("json", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
+            return JsonSerializer.DeserializeAsync(request.Body, type, options, cancellationToken);
+        }
 
-            return false;
+        private static InvalidOperationException CreateContentTypeError(HttpRequest request)
+        {
+            return new InvalidOperationException($"Unable to read the request as JSON because the request content type '{request.ContentType}' is not a known JSON content type.");
         }
     }
 }

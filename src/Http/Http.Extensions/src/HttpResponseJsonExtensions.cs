@@ -6,34 +6,41 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace Microsoft.AspNetCore.Http.Json
 {
-    public static partial class HttpContextJsonExtensions
+    public static partial class HttpResponseJsonExtensions
     {
         public static ValueTask WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
             CancellationToken cancellationToken = default)
         {
-            return response.WriteAsJsonAsync<TValue>(value, options: null, contentType: JsonConstants.JsonContentType, cancellationToken);
+            return response.WriteAsJsonAsync<TValue>(value, options: null, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
         public static ValueTask WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
-            JsonSerializerOptions options,
+            JsonSerializerOptions? options,
             CancellationToken cancellationToken = default)
         {
-            return response.WriteAsJsonAsync<TValue>(value, options, contentType: JsonConstants.JsonContentType, cancellationToken);
+            return response.WriteAsJsonAsync<TValue>(value, options, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
         public static ValueTask WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
-            JsonSerializerOptions options,
-            string contentType,
+            JsonSerializerOptions? options,
+            string? contentType,
             CancellationToken cancellationToken = default)
         {
+            if (response == null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
             if (contentType != null)
             {
                 response.ContentType = contentType;
@@ -44,31 +51,40 @@ namespace Microsoft.AspNetCore.Http.Json
 
         public static ValueTask WriteAsJsonAsync(
             this HttpResponse response,
-            Type type,
             object value,
+            Type type,
             CancellationToken cancellationToken = default)
         {
-            return response.WriteAsJsonAsync(type, value, options: null, contentType: JsonConstants.JsonContentType, cancellationToken);
+            return response.WriteAsJsonAsync(value, type, options: null, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
         public static ValueTask WriteAsJsonAsync(
             this HttpResponse response,
-            Type type,
             object value,
-            JsonSerializerOptions options,
+            Type type,
+            JsonSerializerOptions? options,
             CancellationToken cancellationToken = default)
         {
-            return response.WriteAsJsonAsync(type, value, options, contentType: JsonConstants.JsonContentType, cancellationToken);
+            return response.WriteAsJsonAsync(value, type, options, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
         public static ValueTask WriteAsJsonAsync(
             this HttpResponse response,
-            Type type,
             object value,
-            JsonSerializerOptions options,
-            string contentType,
+            Type type,
+            JsonSerializerOptions? options,
+            string? contentType,
             CancellationToken cancellationToken = default)
         {
+            if (response == null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             if (contentType != null)
             {
                 response.ContentType = contentType;
