@@ -5,6 +5,8 @@ using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 #nullable enable
 
@@ -12,7 +14,7 @@ namespace Microsoft.AspNetCore.Http.Json
 {
     public static partial class HttpResponseJsonExtensions
     {
-        public static ValueTask WriteAsJsonAsync<TValue>(
+        public static Task WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
             CancellationToken cancellationToken = default)
@@ -20,7 +22,7 @@ namespace Microsoft.AspNetCore.Http.Json
             return response.WriteAsJsonAsync<TValue>(value, options: null, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
-        public static ValueTask WriteAsJsonAsync<TValue>(
+        public static Task WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
             JsonSerializerOptions? options,
@@ -29,7 +31,7 @@ namespace Microsoft.AspNetCore.Http.Json
             return response.WriteAsJsonAsync<TValue>(value, options, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
-        public static ValueTask WriteAsJsonAsync<TValue>(
+        public static Task WriteAsJsonAsync<TValue>(
             this HttpResponse response,
             TValue value,
             JsonSerializerOptions? options,
@@ -41,15 +43,20 @@ namespace Microsoft.AspNetCore.Http.Json
                 throw new ArgumentNullException(nameof(response));
             }
 
+            if (options == null)
+            {
+                options = ResolveSerializerOptions(response.HttpContext);
+            }
+
             if (contentType != null)
             {
                 response.ContentType = contentType;
             }
             response.StatusCode = StatusCodes.Status200OK;
-            return new ValueTask(JsonSerializer.SerializeAsync<TValue>(response.Body, value, options, cancellationToken));
+            return JsonSerializer.SerializeAsync<TValue>(response.Body, value, options, cancellationToken);
         }
 
-        public static ValueTask WriteAsJsonAsync(
+        public static Task WriteAsJsonAsync(
             this HttpResponse response,
             object value,
             Type type,
@@ -58,7 +65,7 @@ namespace Microsoft.AspNetCore.Http.Json
             return response.WriteAsJsonAsync(value, type, options: null, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
-        public static ValueTask WriteAsJsonAsync(
+        public static Task WriteAsJsonAsync(
             this HttpResponse response,
             object value,
             Type type,
@@ -68,7 +75,7 @@ namespace Microsoft.AspNetCore.Http.Json
             return response.WriteAsJsonAsync(value, type, options, contentType: JsonConstants.JsonContentTypeWithCharset, cancellationToken);
         }
 
-        public static ValueTask WriteAsJsonAsync(
+        public static Task WriteAsJsonAsync(
             this HttpResponse response,
             object value,
             Type type,
@@ -85,12 +92,23 @@ namespace Microsoft.AspNetCore.Http.Json
                 throw new ArgumentNullException(nameof(type));
             }
 
+            if (options == null)
+            {
+                options = ResolveSerializerOptions(response.HttpContext);
+            }
+
             if (contentType != null)
             {
                 response.ContentType = contentType;
             }
             response.StatusCode = StatusCodes.Status200OK;
-            return new ValueTask(JsonSerializer.SerializeAsync(response.Body, value, type, options, cancellationToken));
+            return JsonSerializer.SerializeAsync(response.Body, value, type, options, cancellationToken);
+        }
+
+        private static JsonSerializerOptions ResolveSerializerOptions(HttpContext? httpContext)
+        {
+            // Attempt to resolve options from DI then fallback to default options
+            return httpContext?.RequestServices?.GetService<IOptions<JsonOptions>>()?.Value?.SerializerOptions ?? JsonOptions.DefaultSerializerOptions;
         }
     }
 }
