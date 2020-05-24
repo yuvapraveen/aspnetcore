@@ -103,7 +103,12 @@ namespace Microsoft.AspNetCore.Mvc.Analyzers
         {
             while (method.IsOverride)
             {
-                method = method.OverriddenMethod!;
+                if (method.OverriddenMethod == null)
+                {
+                    throw new ArgumentNullException(nameof(method.OverriddenMethod));
+                }
+
+                method = method.OverriddenMethod;
             }
 
             return method.ContainingType;

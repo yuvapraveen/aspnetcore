@@ -101,14 +101,22 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
 
                 case ObjectCreationExpressionSyntax creation:
                     {
+                        if (creation.ArgumentList == null)
+                        {
+                            throw new ArgumentNullException(nameof(creation.ArgumentList));
+                        }
                         // Read values from 'return new StatusCodeResult(200) case.
-                        var result = InspectMethodArguments(semanticModel, creation, creation.ArgumentList!, cancellationToken);
+                        var result = InspectMethodArguments(semanticModel, creation, creation.ArgumentList, cancellationToken);
                         statusCode = result.statusCode ?? statusCode;
                         returnType = result.returnType;
 
+                        if (creation.Initializer == null)
+                        {
+                            throw new ArgumentNullException(nameof(creation.Initializer));
+                        }
                         // Read values from property assignments e.g. 'return new ObjectResult(...) { StatusCode = 200 }'.
                         // Property assignments override constructor assigned values and defaults.
-                        result = InspectInitializers(symbolCache, semanticModel, creation.Initializer!, cancellationToken);
+                        result = InspectInitializers(symbolCache, semanticModel, creation.Initializer, cancellationToken);
                         statusCode = result.statusCode ?? statusCode;
                         returnType = result.returnType ?? returnType;
                         break;
@@ -201,6 +209,12 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
         private static ITypeSymbol GetExpressionObjectType(SemanticModel semanticModel, ExpressionSyntax expression, CancellationToken cancellationToken)
         {
             var typeInfo = semanticModel.GetTypeInfo(expression, cancellationToken);
+
+            if (typeInfo.Type == null)
+            {
+                throw new ArgumentNullException(nameof(typeInfo.Type));
+            }
+
             return typeInfo.Type!;
         }
 

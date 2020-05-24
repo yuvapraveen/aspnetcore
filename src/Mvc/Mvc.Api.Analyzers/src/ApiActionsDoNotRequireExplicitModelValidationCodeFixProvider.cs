@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Threading;
@@ -58,6 +59,11 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
             {
                 var rootNode = await _document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
                 var editor = await DocumentEditor.CreateAsync(_document, cancellationToken).ConfigureAwait(false);
+
+                if (rootNode == null)
+                {
+                    throw new ArgumentNullException(nameof(rootNode));
+                }
 
                 var ifBlockSyntax = rootNode!.FindNode(_ifBlockSpan);
                 editor.RemoveNode(ifBlockSyntax);
