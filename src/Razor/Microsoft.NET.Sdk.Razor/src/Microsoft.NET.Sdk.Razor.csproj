@@ -7,7 +7,6 @@
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <Serviceable>true</Serviceable>
     <SdkOutputPath>$(ArtifactsBinDir)Microsoft.NET.Sdk.Razor\$(Configuration)\sdk-output\</SdkOutputPath>
-    <SentinelPath>$(SdkOutputPath).sentinel</SentinelPath>
     <!-- Do not disable ApiCheck. We need to be aware of when we make changes to the Tasks since they need to be backwards compatible. -->
 
     <!-- Allow assemblies outside of lib in the package -->
@@ -47,10 +46,7 @@
     <Content Include="_._" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <Target Name="LayoutDependencies" BeforeTargets="Build" Condition="!Exists('$(SentinelPath)')" Inputs="$(MSBuildProjectFullPath)" Outputs="$(SentinelPath)">
-
-    <WriteLinesToFile lines="." File="$(SentinelPath)" />
-
+  <Target Name="LayoutDependencies" BeforeTargets="Build">
     <!-- Layout tasks, compiler, and extensions in the sdk-output folder. The entire folder structure gets packaged as-is into the SDK -->
     <MSBuild
       Projects="..\..\Microsoft.AspNetCore.Razor.Tools\src\Microsoft.AspNetCore.Razor.Tools.csproj"
@@ -80,13 +76,13 @@
       <Output TaskParameter="CopiedFiles" ItemName="FileWrites" />
     </Copy>
 
-    <Warning Text="Prepared Razor SDK at $(SdkOutputPath)" />
+    <Message Importance="High" Text="Prepared Razor SDK at $(SdkOutputPath)" />
 
     <ItemGroup>
       <_PreparedRazorSdkFiles Include="$(SdkOutputPath)**\*.*" />
     </ItemGroup>
 
-    <Warning Text="Prepared files:@(_PreparedRazorSdkFiles->'%0a%(Identity)')" />
+    <Message Importance="High" Text="Prepared files:@(_PreparedRazorSdkFiles->'%0a%(Identity)')" />
   </Target>
 
   <Target Name="PopulateNuspec" BeforeTargets="InitializeStandardNuspecProperties" DependsOnTargets="LayoutDependencies">
