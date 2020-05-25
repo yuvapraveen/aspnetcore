@@ -7,6 +7,7 @@
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <Serviceable>true</Serviceable>
     <SdkOutputPath>$(ArtifactsBinDir)Microsoft.NET.Sdk.Razor\$(Configuration)\sdk-output\</SdkOutputPath>
+    <SentinelPath>$(SdkOutputPath).sentinel</SentinelPath>
     <!-- Do not disable ApiCheck. We need to be aware of when we make changes to the Tasks since they need to be backwards compatible. -->
 
     <!-- Allow assemblies outside of lib in the package -->
@@ -46,7 +47,10 @@
     <Content Include="_._" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <Target Name="LayoutDependencies" BeforeTargets="Build" Condition="'$(IsInnerBuild)' != 'true'">
+  <Target Name="LayoutDependencies" BeforeTargets="Build" Condition="!Exists('$(SentinelPath)')" Inputs="$(MSBuildProjectFullPath)" Outputs="$(SentinelPath)">
+
+    <WriteLinesToFile lines="." File="$(SentinelPath)" />
+
     <!-- Layout tasks, compiler, and extensions in the sdk-output folder. The entire folder structure gets packaged as-is into the SDK -->
     <MSBuild
       Projects="..\..\Microsoft.AspNetCore.Razor.Tools\src\Microsoft.AspNetCore.Razor.Tools.csproj"
