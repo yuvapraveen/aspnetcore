@@ -68,12 +68,14 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
                 return SymbolApiConventionNameMatchBehavior.Exact;
             }
 
-            var intValue = (int)attribute.ConstructorArguments[0].Value;
+            var argEnum = attribute.ConstructorArguments[0].Value;
 
-            if (intValue == null)
+            if (argEnum == null)
             {
-                throw new ArgumentNullException(nameof(intValue));
+                throw new ArgumentNullException(nameof(argEnum));
             }
+
+            var intValue = (int)argEnum;
 
             return (SymbolApiConventionNameMatchBehavior)intValue;
         }
@@ -88,12 +90,14 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
                 return SymbolApiConventionTypeMatchBehavior.AssignableFrom;
             }
 
-            var intValue = (int)attribute.ConstructorArguments[0].Value;
+            var argEnum = attribute.ConstructorArguments[0].Value;
 
-            if (intValue == null)
+            if (argEnum == null)
             {
-                throw new ArgumentNullException(nameof(intValue));
+                throw new ArgumentNullException(nameof(argEnum));
             }
+
+            var intValue = (int)argEnum;
 
             return (SymbolApiConventionTypeMatchBehavior)intValue;
         }
