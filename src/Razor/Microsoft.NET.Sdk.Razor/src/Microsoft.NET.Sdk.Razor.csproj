@@ -75,6 +75,14 @@
     <Copy SourceFiles="@(ProjectOutput)" DestinationFiles="$(SdkOutputPath)tasks\%(RecursiveDir)%(FileName)%(Extension)" SkipUnchangedFiles="true" ContinueOnError="true" >
       <Output TaskParameter="CopiedFiles" ItemName="FileWrites" />
     </Copy>
+
+    <Warning Text="Prepared Razor SDK at $(SdkOutputPath)" />
+
+    <ItemGroup>
+      <_PreparedRazorSdkFiles Include="$(SdkOutputPath)**\*.*" />
+    </ItemGroup>
+
+    <Warning Text="Prepared files:@(_PreparedRazorSdkFiles->'%0a%(Identity)')" />
   </Target>
 
   <Target Name="PopulateNuspec" BeforeTargets="InitializeStandardNuspecProperties" DependsOnTargets="LayoutDependencies">
