@@ -50,7 +50,7 @@
     <_SdkContents Include="$(ArtifactsBinDir)Microsoft.NET.Sdk.Razor\$(Configuration)\$(DefaultNetCoreTargetFramework)\Microsoft.NET.Sdk.Razor.Tasks.dll" />
   </ItemGroup>
 
-  <Target Name="LayoutDependencies" BeforeTargets="Build" Inputs="$(MSBuildProjectFullPath)" Outputs="@(_SdkContents)">
+  <Target Name="LayoutDependencies" BeforeTargets="Build">
     <!-- Layout tasks, compiler, and extensions in the sdk-output folder. The entire folder structure gets packaged as-is into the SDK -->
     <MSBuild
       Projects="..\..\Microsoft.AspNetCore.Razor.Tools\src\Microsoft.AspNetCore.Razor.Tools.csproj"
