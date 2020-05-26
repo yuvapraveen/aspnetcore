@@ -6,7 +6,6 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <IsBenchmarkProject>true</IsBenchmarkProject>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <UseRazorSdk>true</UseRazorSdk>
   </PropertyGroup>
 
   <ItemGroup>
