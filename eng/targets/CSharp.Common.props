@@ -23,8 +23,9 @@
           is a project reference, we must explicitly import the props file and also specify the output location of the SDK directory.
         -->
         <ProjectReference Include="$(RepoRoot)src\Razor\Microsoft.NET.Sdk.Razor\src\Microsoft.NET.Sdk.Razor.csproj" PrivateAssets="All" IsImplicitlyDefined="true" ReferenceOutputAssembly="false" >
-          <!-- Resolve using net5.0 TFM -->
-          <SetTargetFramework Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'">TargetFramework=$(DefaultNetCoreTargetFramework)</SetTargetFramework>
+          <!-- Use the same logic as Sdk.Razor.CurrentVersion.Targets -->
+          <SetTargetFramework Condition=" '$(MSBuildRuntimeType)' == 'Core'">TargetFramework=$(DefaultNetCoreTargetFramework)</SetTargetFramework>
+          <SetTargetFramework Condition=" '$(MSBuildRuntimeType)' != 'Core'">TargetFramework=net46</SetTargetFramework>
         </ProjectReference>
       </ItemGroup>
 
