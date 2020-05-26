@@ -14,8 +14,6 @@
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Tasks" Version="5.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
-
-    <ProjectReference Include="$(RepoRoot)src\Razor\Microsoft.NET.Sdk.Razor\src\Microsoft.NET.Sdk.Razor.csproj" PrivateAssets="All" IsImplicitlyDefined="true" ReferenceOutputAssembly="false" UndefineProperties="IsInnerBuild" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == '$(DefaultNetCoreTargetFramework)'">
