@@ -110,10 +110,6 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
                         statusCode = result.statusCode ?? statusCode;
                         returnType = result.returnType;
 
-                        if (creation.Initializer == null)
-                        {
-                            throw new ArgumentNullException(nameof(creation.Initializer));
-                        }
                         // Read values from property assignments e.g. 'return new ObjectResult(...) { StatusCode = 200 }'.
                         // Property assignments override constructor assigned values and defaults.
                         result = InspectInitializers(symbolCache, semanticModel, creation.Initializer, cancellationToken);
@@ -134,7 +130,7 @@ namespace Microsoft.AspNetCore.Mvc.Api.Analyzers
         private static (int? statusCode, ITypeSymbol? returnType) InspectInitializers(
             in ApiControllerSymbolCache symbolCache,
             SemanticModel semanticModel,
-            InitializerExpressionSyntax initializer,
+            InitializerExpressionSyntax? initializer,
             CancellationToken cancellationToken)
         {
             int? statusCode = null;
